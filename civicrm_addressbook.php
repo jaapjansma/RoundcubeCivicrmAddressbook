@@ -21,7 +21,7 @@ class civicrm_addressbook extends rcube_plugin {
 	public function addressbook_get($addressbook) {
 		if ($addressbook['id'] == 'civicrm') {
 			$addressbook['instance'] = new civicrm_addressbook_instance();
-		}
+	}
 		return $addressbook;
 	}
 
