@@ -13,9 +13,8 @@ class civicrm_addressbook_instance extends rcube_addressbook {
     public $date_cols     = array();
     public $coltypes      = array(
         'name'      => array('limit'=>1),
-        'firstname'      => array('limit'=>1),
-        'surname'      => array('limit'=>1),
         'email'     => array('limit'=>1),
+		'phone'     => array('limit'=>1),
     );
 
 	private $filter;
@@ -69,7 +68,7 @@ class civicrm_addressbook_instance extends rcube_addressbook {
         $result = $this->count();
 		$db = $this->getDb();
 		$db->query("
-			SELECT civicrm_contact.id as id, civicrm_contact.display_name, civicrm_contact.first_name, civicrm_contact.last_name, civicrm_email.email, civicrm_phone.phone
+			SELECT civicrm_contact.id as id, civicrm_contact.display_name, civicrm_email.email, civicrm_phone.phone
 			FROM civicrm_contact 
 			INNER JOIN civicrm_email ON civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1
 			LEFT JOIN civicrm_phone ON civicrm_contact.id = civicrm_phone.contact_id AND civicrm_phone.is_primary = 1
@@ -82,10 +81,8 @@ class civicrm_addressbook_instance extends rcube_addressbook {
 			$record = array(
 				'ID' => $sql_arr['id'],
 				'name' => $sql_arr['display_name'],
-				'surname' => $sql_arr['last_name'],
-				'firstname' => $sql_arr['first_name'],
-				'email:home' => $sql_arr['email'],
-				'phone:home' => $sql_arr['phone'],
+				'email' => $sql_arr['email'],
+				'phone' => $sql_arr['phone'],
 			);
 			$result->add($record);
 		}
@@ -115,12 +112,6 @@ class civicrm_addressbook_instance extends rcube_addressbook {
 				switch($fieldName) {
 					case 'name':
 						$wheres[] = $db->ilike('civicrm_contact.display_name', $value . '%');
-						break;
-					case 'firstname':
-						$wheres[] = $db->ilike('civicrm_contact.first_name', $value . '%');
-						break;
-					case 'surname':
-						$wheres[] = $db->ilike('civicrm_contact.last_name', $value . '%');
 						break;
 					case 'email':
 						$wheres[] = $db->ilike('civicrm_email.email', $value . '%');
@@ -181,7 +172,7 @@ class civicrm_addressbook_instance extends rcube_addressbook {
 	    	$record = false;
 		$db = $this->getDb();
 		$db->query("
-			SELECT civicrm_contact.id as id, civicrm_contact.display_name, civicrm_contact.last_name, civicrm_contact.first_name, civicrm_email.email, civicrm_phone.phone
+			SELECT civicrm_contact.id as id, civicrm_contact.display_name, civicrm_email.email, civicrm_phone.phone
 			FROM civicrm_contact 
 			INNER JOIN civicrm_email ON civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1
 			LEFT JOIN civicrm_phone ON civicrm_contact.id = civicrm_phone.contact_id AND civicrm_phone.is_primary = 1
@@ -190,10 +181,8 @@ class civicrm_addressbook_instance extends rcube_addressbook {
 			$record = array(
 				'ID' => $sql_arr['id'],
 				'name' => $sql_arr['display_name'],
-				'surname' => $sql_arr['last_name'],
-				'firstname' => $sql_arr['first_name'],
-				'email:home' => $sql_arr['email'],
-				'phone:home' => $sql_arr['phone'],
+				'email' => $sql_arr['email'],
+				'phone' => $sql_arr['phone'],
 			);
 				$this->result->add($record);
 		}
