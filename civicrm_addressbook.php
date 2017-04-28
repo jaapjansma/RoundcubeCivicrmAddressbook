@@ -30,6 +30,7 @@ class civicrm_addressbook extends rcube_plugin {
 			'id' => 'civicrm',
 			'name' => 'CiviCRM',
 			'readonly' => true,
+			'groups' => true,
 		); 
 		return $addressbooks;
 	}
